@@ -21,6 +21,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Image Grid.Row="0"
                    RenderOptions.BitmapScalingMode="HighQuality"
@@ -30,8 +31,15 @@
                     Margin="0,16,0,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Command="{Binding ObtainScreenShotCommand}"
-                    Content="Obtain" />
+                    Command="{Binding CaptureScreenShotCommand}"
+                    Content="Capture" />
+            <Button Grid.Row="2"
+                    MinWidth="300"
+                    Margin="0,16,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Command="{Binding SaveAsScreenShotCommand}"
+                    Content="Save As" />
         </Grid>
         <wui:TitleBar Title="ScreenCap for Android [Alt + N]">
             <wui:TitleBar.Icon>

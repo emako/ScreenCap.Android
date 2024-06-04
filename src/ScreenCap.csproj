@@ -2,14 +2,15 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net8.0-windows</TargetFramework>
+		<TargetFramework>net472</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon>Assets\Images\Favicon.ico</ApplicationIcon>
-		<AssemblyVersion>0.0.1.0</AssemblyVersion>
-		<FileVersion>0.0.1.0</FileVersion>
-		<Version>$(VersionPrefix)0.0.1.0</Version>
+		<AssemblyVersion>0.0.2.0</AssemblyVersion>
+		<FileVersion>0.0.2.0</FileVersion>
+		<Version>$(VersionPrefix)0.0.2.0</Version>
+		<LangVersion>12.0</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -38,13 +39,16 @@
 
 	<ItemGroup>
 		<PackageReference Include="AvalonEdit" Version="6.3.0.90" />
+		<PackageReference Include="Costura.Fody" Version="5.7.0" Condition=" '$(Configuration)' == 'Release'">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>compile; runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Vanara.PInvoke.NtDll" Version="4.0.1" />
 		<PackageReference Include="Vanara.PInvoke.SHCore" Version="4.0.1" />
 		<PackageReference Include="Vanara.PInvoke.User32" Version="4.0.1" />
 		<PackageReference Include="WPF-UI" Version="3.0.4" />
 		<PackageReference Include="MouseKeyHook" Version="5.7.1" />
-		<PackageReference Include="ValueConverters" Version="3.0.26" />
 	</ItemGroup>
 
 </Project>

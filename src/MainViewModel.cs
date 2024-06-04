@@ -1,9 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Gma.System.MouseKeyHook;
+using Microsoft.Win32;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using Gma.System.MouseKeyHook;
 
 namespace ScreenCap;
 
@@ -15,28 +16,46 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private BitmapImage image = null!;
 
+    [ObservableProperty]
+    private byte[] imageData = [];
+
     public MainViewModel()
     {
         GlobalMouseHook.KeyDown += OnGlobalMouseHookKeyDown;
+
+        _ = SetupAsync();
     }
 
-    private void OnGlobalMouseHookKeyDown(object? sender, System.Windows.Forms.KeyEventArgs e)
+    private async void OnGlobalMouseHookKeyDown(object? sender, System.Windows.Forms.KeyEventArgs e)
     {
         if (e.Alt && e.KeyCode == System.Windows.Forms.Keys.N)
         {
-            ObtainScreenShotAsync()
-                .ConfigureAwait(false);
+            await CaptureScreenShotAsync();
         }
     }
 
     [RelayCommand]
-    private async Task ObtainScreenShotAsync()
+    private async Task SetupAsync()
+    {
+        string adb = AdbAttacher.GetPath();
+        await FluentProcess.Create()
+            .FileName(adb)
+            .CreateNoWindow()
+            .UseShellExecute(false)
+            .Arguments("devices -l")
+            .Start()
+            .WaitForExitAsync();
+    }
+
+    [RelayCommand]
+    private async Task CaptureScreenShotAsync()
     {
         string adb = AdbAttacher.GetPath();
 
         await FluentProcess.Create()
             .FileName(adb)
             .CreateNoWindow()
+            .UseShellExecute(false)
             .Arguments("shell screencap /sdcard/screencap.png")
             .Start()
             .WaitForExitAsync();
@@ -44,6 +63,7 @@ public partial class MainViewModel : ObservableObject
         await FluentProcess.Create()
             .FileName(adb)
             .CreateNoWindow()
+            .UseShellExecute(false)
             .Arguments($"pull /sdcard/screencap.png \"{ScreenshotPath}\"")
             .Start()
             .WaitForExitAsync();
@@ -51,10 +71,12 @@ public partial class MainViewModel : ObservableObject
         await FluentProcess.Create()
             .FileName(adb)
             .CreateNoWindow()
+            .UseShellExecute(false)
             .Arguments("shell rm /sdcard/screencap.png")
             .Start()
             .WaitForExitAsync();
 
+        ImageData = File.ReadAllBytes(ScreenshotPath);
         BitmapImage bitmap = ImageExtension.LoadImage(ScreenshotPath);
         Clipboard.SetImage(bitmap);
 
@@ -63,6 +85,29 @@ public partial class MainViewModel : ObservableObject
         if (File.Exists(ScreenshotPath))
         {
             File.Delete(ScreenshotPath);
+        }
+    }
+
+    [RelayCommand]
+    private void SaveAsScreenShot()
+    {
+        if (ImageData == null || ImageData.Length == 0)
+        {
+            return;
+        }
+
+        SaveFileDialog saveFileDialog = new()
+        {
+            Filter = "PNG Files (*.png)|*.png",
+            DefaultExt = "png",
+            AddExtension = true,
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+            FileName = $"screencap_{DateTime.Now:yyyymmddHHMMssfff}.png"
+        };
+
+        if (saveFileDialog.ShowDialog() == true)
+        {
+            File.WriteAllBytes(saveFileDialog.FileName, ImageData);
         }
     }
 }

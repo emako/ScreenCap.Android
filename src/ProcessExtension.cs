@@ -165,6 +165,12 @@ public class FluentProcess : Process
         return this;
     }
 
+    public async Task<FluentProcess> WaitForExitAsync()
+    {
+        await Task.Run(base.WaitForExit);
+        return this;
+    }
+
     public new FluentProcess WaitForInputIdle()
     {
         base.WaitForInputIdle();
