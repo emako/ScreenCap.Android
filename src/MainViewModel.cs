@@ -76,6 +76,11 @@ public partial class MainViewModel : ObservableObject
             .Start()
             .WaitForExitAsync();
 
+        if (!File.Exists(ScreenshotPath))
+        {
+            return;
+        }
+
         ImageData = File.ReadAllBytes(ScreenshotPath);
         BitmapImage bitmap = ImageExtension.LoadImage(ScreenshotPath);
         Clipboard.SetImage(bitmap);
