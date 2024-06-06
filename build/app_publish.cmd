@@ -8,7 +8,8 @@ cd ..\src\
 dotnet publish -c Release -p:PublishProfile=FolderProfile
 cd /d %~dp0
 
-copy ..\src\bin\Release\net472\win7-x86\ScreenCap.exe .
-"C:\Program Files\7-Zip\7z.exe" a ScreenCap.7z ..\src\bin\Release\net472\win7-x86\ScreenCap.exe -t7z -mx=5 -mf=BCJ2 -r -y
+del ..\src\bin\Release\net472\win7-x86\*.pdb
+del ..\src\bin\Release\net472\win7-x86\*.config
+"C:\Program Files\7-Zip\7z.exe" a ScreenCap.7z ..\src\bin\Release\net472\win7-x86\* -t7z -mx=5 -mf=BCJ2 -r -y
 
 @pause
