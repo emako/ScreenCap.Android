@@ -1,8 +1,8 @@
 # ScreenCap
 
-ScreenCap for Android.
+Screen Capture for Android.
 
-Base on WPF with .NET 8 x64.
+Base on WPF.
 
 Shortcut is `Alt + N`.
 
