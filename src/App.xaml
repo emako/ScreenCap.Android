@@ -10,6 +10,7 @@
                 <wui:ThemesDictionary Theme="Dark" />
                 <wui:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="SymbolThemeFontFamily">pack://application:,,,/Assets/Fonts/Segoe Fluent Icons.ttf#Segoe Fluent Icons</FontFamily>
             <FontFamily x:Key="TextThemeFontFamily">pack://application:,,,/Assets/Fonts/HarmonyOS_Sans_SC_Regular.ttf#HarmonyOS Sans SC</FontFamily>
         </ResourceDictionary>
     </Application.Resources>

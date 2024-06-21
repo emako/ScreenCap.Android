@@ -2,7 +2,10 @@
 using CommunityToolkit.Mvvm.Input;
 using Gma.System.MouseKeyHook;
 using Microsoft.Win32;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
+using System.Text;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -10,6 +13,9 @@ namespace ScreenCap;
 
 public partial class MainViewModel : ObservableObject
 {
+    [ObservableProperty]
+    private string version = $"v{Assembly.GetCallingAssembly().GetAssemblyVersion()}";
+
     protected static IKeyboardMouseEvents GlobalMouseHook = Hook.GlobalEvents();
     protected static string ScreenshotPath => Path.Combine(Path.GetTempPath(), "screencap.png");
 
@@ -114,5 +120,28 @@ public partial class MainViewModel : ObservableObject
         {
             File.WriteAllBytes(saveFileDialog.FileName, ImageData);
         }
+    }
+
+    [RelayCommand]
+    private void ShowGitHub()
+    {
+        using var _ = Process.Start("https://github.com/emako/ScreenCap.Android");
+    }
+}
+
+file static class AssemblyExtensions
+{
+    public static string GetAssemblyVersion(this Assembly assembly)
+    {
+        Version version = assembly.GetName().Version;
+        StringBuilder sb = new();
+
+        sb.Append(version.Major);
+        sb.Append(".");
+        sb.Append(version.Minor);
+        sb.Append(".");
+        sb.Append(version.Build);
+
+        return sb.ToString();
     }
 }
