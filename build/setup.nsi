@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "ScreenCap"
-!define PRODUCT_VERSION "0.0.5.0"
+!define PRODUCT_VERSION "0.0.6.0"
 !define PRODUCT_PUBLISHER "ema"
 !define PRODUCT_WEB_SITE "https://github.com/emako/ScreenCap"
 SetCompressor lzma
