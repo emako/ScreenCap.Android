@@ -1,6 +1,10 @@
-# ScreenCap
+# ScreenCap.Android
 
-Screen Capture for Android in Windows.
+Screen Capture for Android in Windows, base on adb.
+
+The developer mode is requested with your phone.
+
+After captured, you can `Ctrl + V` to paste the image from clipboard.
 
 Shortcut is `Alt + N`.
 
